@@ -1,7 +1,6 @@
 mod core;
 use core::{
     app::commands::get_jan_data_folder_path,
-    downloads::models::DownloadManagerState,
     mcp::models::McpSettings,
     setup::{self, setup_mcp},
     state::AppState,
@@ -32,18 +31,12 @@ pub fn run() {
         .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_shell::init())
-        .plugin(tauri_plugin_llamacpp::init())
         .plugin(tauri_plugin_vector_db::init())
         .plugin(tauri_plugin_rag::init());
 
     #[cfg(feature = "deep-link")]
     {
         app_builder = app_builder.plugin(tauri_plugin_deep_link::init());
-    }
-
-    #[cfg(not(any(target_os = "android", target_os = "ios")))]
-    {
-        app_builder = app_builder.plugin(tauri_plugin_hardware::init());
     }
 
     let app = app_builder
@@ -83,10 +76,6 @@ pub fn run() {
             core::system::commands::factory_reset,
             core::system::commands::read_logs,
             core::system::commands::is_library_available,
-            // Server commands
-            core::server::commands::start_server,
-            core::server::commands::stop_server,
-            core::server::commands::get_server_status,
             // MCP commands
             core::mcp::commands::get_tools,
             core::mcp::commands::call_tool,
@@ -110,16 +99,11 @@ pub fn run() {
             core::threads::commands::get_thread_assistant,
             core::threads::commands::create_thread_assistant,
             core::threads::commands::modify_thread_assistant,
-            // Download
-            core::downloads::commands::download_files,
-            core::downloads::commands::cancel_download_task,
         ])
         .manage(AppState {
             app_token: Some(generate_app_token()),
             mcp_servers: Arc::new(Mutex::new(HashMap::new())),
-            download_manager: Arc::new(Mutex::new(DownloadManagerState::default())),
             mcp_active_servers: Arc::new(Mutex::new(HashMap::new())),
-            server_handle: Arc::new(Mutex::new(None)),
             tool_call_cancellations: Arc::new(Mutex::new(HashMap::new())),
             mcp_settings: Arc::new(Mutex::new(McpSettings::default())),
             mcp_shutdown_in_progress: Arc::new(Mutex::new(false)),
@@ -234,7 +218,6 @@ pub fn run() {
             tokio::task::block_in_place(|| {
                 tauri::async_runtime::block_on(async {
                     use crate::core::mcp::helpers::background_cleanup_mcp_servers;
-                    use tauri_plugin_llamacpp::cleanup_llama_processes;
 
                     let state = app_handle.state::<AppState>();
 
@@ -247,11 +230,6 @@ pub fn run() {
                         Err(_) => log::warn!("MCP cleanup timed out after 10 seconds"),
                     }
 
-                    if let Err(e) = cleanup_llama_processes(app_handle.clone()).await {
-                        log::warn!("Failed to cleanup llama processes: {}", e);
-                    } else {
-                        log::info!("Llama processes cleaned up successfully");
-                    }
                     log::info!("App cleanup completed");
                 });
             });

@@ -1,8 +1,7 @@
 {
   "bundle": {
     "targets": ["nsis", "msi"],
-    "resources": ["resources/pre-install/**/*", "resources/LICENSE"],
-    "externalBin": ["resources/bin/bun", "resources/bin/uv"],
+    "resources": ["resources/LICENSE"],
     "windows": {
       "webviewInstallMode": {
         "silent": true,

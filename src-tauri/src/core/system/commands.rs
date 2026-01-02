@@ -1,7 +1,6 @@
 use std::fs;
 use std::path::PathBuf;
 use tauri::{AppHandle, Manager, Runtime, State};
-use tauri_plugin_llamacpp::cleanup_llama_processes;
 
 use crate::core::app::commands::{
     default_data_folder_path, get_jan_data_folder_path, update_app_configuration,
@@ -37,7 +36,6 @@ pub fn factory_reset<R: Runtime>(app_handle: tauri::AppHandle<R>, state: State<'
         if let Err(e) = cleanup_own_locks(&app_handle) {
             log::warn!("Failed to cleanup lock files: {}", e);
         }
-        let _ = cleanup_llama_processes(app_handle.clone()).await;
 
         if data_folder.exists() {
             if let Err(e) = fs::remove_dir_all(&data_folder) {

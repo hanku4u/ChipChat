@@ -25,11 +25,9 @@ default = [
     "tauri/custom-protocol",
     "desktop",
 ]
-hardware = ["dep:tauri-plugin-hardware"]
 deep-link = ["dep:tauri-plugin-deep-link"]
 desktop = [
-    "deep-link",
-    "hardware"
+    "deep-link"
 ]
 mobile = [
     "tauri/protocol-asset",
@@ -76,8 +74,6 @@ serde_yaml = "0.9.34"
 tar = "0.4"
 zip = "0.6"
 tauri-plugin-deep-link = { version = "2", optional = true }
-tauri-plugin-hardware = { path = "./plugins/tauri-plugin-hardware", optional = true }
-tauri-plugin-llamacpp = { path = "./plugins/tauri-plugin-llamacpp" }
 tauri-plugin-vector-db = { path = "./plugins/tauri-plugin-vector-db" }
 tauri-plugin-rag = { path = "./plugins/tauri-plugin-rag" }
 tauri-plugin-http = { version = "2", features = ["unsafe-headers"] }
