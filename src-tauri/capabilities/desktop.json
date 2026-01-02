@@ -26,9 +26,7 @@
     "store:default",
     "vector-db:default",
     "rag:default",
-    "llamacpp:default",
     "deep-link:default",
-    "hardware:default",
     {
       "identifier": "http:default",
       "allow": [

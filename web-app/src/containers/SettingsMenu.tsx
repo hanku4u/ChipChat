@@ -110,22 +110,10 @@ const SettingsMenu = () => {
       isEnabled: PlatformFeatures[PlatformFeature.SHORTCUT],
     },
     {
-      title: 'common:hardware',
-      route: route.settings.hardware,
-      hasSubMenu: false,
-      isEnabled: PlatformFeatures[PlatformFeature.HARDWARE_MONITORING],
-    },
-    {
       title: 'common:mcp-servers',
       route: route.settings.mcp_servers,
       hasSubMenu: false,
       isEnabled: PlatformFeatures[PlatformFeature.MCP_SERVERS_SETTINGS],
-    },
-    {
-      title: 'common:local_api_server',
-      route: route.settings.local_api_server,
-      hasSubMenu: false,
-      isEnabled: PlatformFeatures[PlatformFeature.LOCAL_API_SERVER],
     },
     {
       title: 'common:https_proxy',

@@ -3,7 +3,6 @@
 
 import LeftPanel from '@/containers/LeftPanel'
 import DialogAppUpdater from '@/containers/dialogs/AppUpdater'
-import BackendUpdater from '@/containers/dialogs/BackendUpdater'
 import { Fragment } from 'react/jsx-runtime'
 import { InterfaceProvider } from '@/providers/InterfaceProvider'
 import { ThemeProvider } from '@/providers/ThemeProvider'
@@ -120,9 +119,6 @@ const AppLayout = () => {
         {/* Fake absolute panel top to enable window drag */}
         <div className="absolute w-full h-10 z-10" data-tauri-drag-region />
         <DialogAppUpdater />
-        {PlatformFeatures[PlatformFeature.LOCAL_INFERENCE] && (
-          <BackendUpdater />
-        )}
 
         {/* Use ResizablePanelGroup only on larger screens */}
         {!isSmallScreen && isLeftPanelOpen ? (

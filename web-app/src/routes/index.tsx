@@ -7,7 +7,6 @@ import { useTools } from '@/hooks/useTools'
 import { cn } from '@/lib/utils'
 
 import { useModelProvider } from '@/hooks/useModelProvider'
-import SetupScreen from '@/containers/SetupScreen'
 import { route } from '@/constants/routes'
 import { predefinedProviders } from '@/consts/providers'
 
@@ -68,21 +67,13 @@ function Index() {
       return provider.models.length > 0
     }
 
-    // Predefined providers need either API key or models (for llamacpp/jan)
-    return (
-      provider.api_key?.length ||
-      (provider.provider === 'llamacpp' && provider.models.length) ||
-      (provider.provider === 'jan' && provider.models.length)
-    )
+    // Predefined providers need API key
+    return provider.api_key?.length > 0
   })
 
   useEffect(() => {
     setCurrentThreadId(undefined)
   }, [setCurrentThreadId])
-
-  if (!hasValidProviders) {
-    return <SetupScreen />
-  }
 
   return (
     <div className="flex h-full flex-col justify-center pb-[calc(env(safe-area-inset-bottom)+env(safe-area-inset-top))]">
