@@ -36,7 +36,6 @@ import { useThreadManagement } from '@/hooks/useThreadManagement'
 import { useTranslation } from '@/i18n/react-i18next-compat'
 import { useMemo, useState, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
-import { DownloadManagement } from '@/containers/DownloadManegement'
 import { useSmallScreen } from '@/hooks/useMediaQuery'
 import { useClickOutside } from '@/hooks/useClickOutside'
 
@@ -61,12 +60,6 @@ const mainMenus = [
 ]
 
 const secondaryMenus = [
-  {
-    title: 'common:hub',
-    icon: IconApps,
-    route: route.hub.index,
-    isEnabled: PlatformFeatures[PlatformFeature.MODEL_HUB],
-  },
   {
     title: 'common:settings',
     icon: IconSettings,
@@ -672,8 +665,6 @@ const LeftPanel = () => {
                 </div>
               </div>
             )}
-
-            <DownloadManagement />
           </div>
         </div>
       </aside>
